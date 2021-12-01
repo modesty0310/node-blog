@@ -2,6 +2,13 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const { config, engine } = require('express-edge');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/node-js-blog', {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log("connected to the database"))
+  .catch((err) => console.log(err));
 
 app.use(express.static('public'));
 app.use(engine);
