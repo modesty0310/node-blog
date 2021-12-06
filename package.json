@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-edge": "^2.0.2",
+    "express-fileupload": "^1.2.1",
     "mongoose": "^6.0.14"
   },
   "devDependencies": {
