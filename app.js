@@ -58,7 +58,12 @@ app.get('/posts/new', (req, res) => {
 });
 
 app.post('/posts/store', upload, (req, res) => {
-  Post.create(req.body, (err, post) => {
+  const image = req.file
+  console.log(image);
+  Post.create({
+    ...req.body,
+    image: `/uploads/${image.originalname}`
+  }, (err, post) => {
     res.redirect('/');
   });
 });
