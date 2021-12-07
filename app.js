@@ -12,13 +12,6 @@ mongoose.connect('mongodb://localhost:27017/node-js-blog', {
   .then(() => console.log("connected to the database"))
   .catch((err) => console.log(err));
 
-app.use(express.static('public'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(engine);
-
-app.set('views', `${__dirname}/views`);
-
 // multer middleware
 let storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -33,6 +26,21 @@ let upload = multer({
   storage : storage
 }).single('image');
 
+// middleware
+const validCreatePostMiddleware = (req, res, next) => {
+  if (!req.body.username || !req.body.title || !req.body.subtitle){
+    return res.redirect('/posts/new');
+  }
+  next();
+};
+
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(engine);
+app.use('/post/store', validCreatePostMiddleware);
+
+app.set('views', `${__dirname}/views`);
 
 app.get('/', async (req,res) => {
   const posts = await Post.find({})
@@ -57,15 +65,18 @@ app.get('/posts/new', (req, res) => {
   res.render('create')
 });
 
-app.post('/posts/store', upload, (req, res) => {
+app.post('/posts/store', upload, async (req, res) => {
   const image = req.file
-  console.log(image);
-  Post.create({
-    ...req.body,
-    image: `/uploads/${image.originalname}`
-  }, (err, post) => {
+  try{
+    await Post.create({
+      ...req.body,
+      image: `/uploads/${image.filename}`
+    });
     res.redirect('/');
-  });
+  } catch(err){
+    res.status(400).redirect('/posts/new');
+  }
+  
 });
 
 app.get('/contact', (req,res) => {
