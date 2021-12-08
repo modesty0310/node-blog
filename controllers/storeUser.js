@@ -1,7 +1,8 @@
 const User = require('../database/models/User');
 
-module.exports = async (req, res) => {
-  await User.create(req.body, (err, user) => {
+module.exports = (req, res) => {
+  console.log(req.body);
+  User.create(req.body, (err, user) => {
     res.redirect('/');
   });
 };
