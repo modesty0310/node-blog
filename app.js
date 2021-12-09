@@ -3,15 +3,11 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 // controller
-const createPostController = require('./controllers/createPost');
 const homePageController = require('./controllers/homePage');
-const storePostController = require('./controllers/storePost');
-const getPostController = require('./controllers/getPost');
 const createUserController = require('./controllers/createUser');
 const storeUserController = require('./controllers/storeUser');
-//middleware
-const storePost = require('./middleware/storePost');
-const upload = require('./middleware/fileUploadMiddleware')
+// routes
+const postRouter = require('./routes/post');
 // DB connect
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URI, {
@@ -23,7 +19,6 @@ mongoose.connect(process.env.DB_URI, {
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
-app.use('/post/store', storePost);
 
 // view engine
 const { engine } = require('express-edge');
@@ -32,9 +27,7 @@ app.set('views', `${__dirname}/views`);
 
 // router
 app.get('/', homePageController);
-app.get('/post/:id', getPostController);
-app.get('/posts/new', createPostController);
-app.post('/posts/store', upload, storePostController);
+app.use('/posts', require('./routes/post'));
 app.get('/auth/register', createUserController);
 app.post('/users/register', storeUserController);
 app.get('/about', (req,res) => {
