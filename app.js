@@ -3,12 +3,11 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 // controller
-const homePageController = require('./controllers/homePage');
-const createUserController = require('./controllers/createUser');
-const storeUserController = require('./controllers/storeUser');
+const homePageController = require('./controllers/homePageAPI');
 // routes
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
+const indexRouter = require('./routes/index');
 // DB connect
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URI, {
@@ -27,15 +26,9 @@ app.use(engine);
 app.set('views', `${__dirname}/views`);
 
 // router
-app.get('/', homePageController);
 app.use('/posts', postRouter);
 app.use('/users', userRouter);
-app.get('/about', (req,res) => {
-  res.render('about')
-});
-app.get('/contact', (req,res) => {
-  res.render('contact')
-});
+app.use('/', indexRouter)
 
 app.listen( port , () => {
   console.log(`App listen on port ${port}`);
