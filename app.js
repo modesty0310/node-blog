@@ -8,6 +8,7 @@ const createUserController = require('./controllers/createUser');
 const storeUserController = require('./controllers/storeUser');
 // routes
 const postRouter = require('./routes/post');
+const userRouter = require('./routes/user');
 // DB connect
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URI, {
@@ -27,9 +28,8 @@ app.set('views', `${__dirname}/views`);
 
 // router
 app.get('/', homePageController);
-app.use('/posts', require('./routes/post'));
-app.get('/auth/register', createUserController);
-app.post('/users/register', storeUserController);
+app.use('/posts', postRouter);
+app.use('/users', userRouter);
 app.get('/about', (req,res) => {
   res.render('about')
 });
