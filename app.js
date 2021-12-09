@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
+const port = process.env.PORT || 5000;
 // controller
 const createPostController = require('./controllers/createPost');
 const homePageController = require('./controllers/homePage');
@@ -12,7 +14,7 @@ const storePost = require('./middleware/storePost');
 const upload = require('./middleware/fileUploadMiddleware')
 // DB connect
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/node-js-blog', {
+mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
   })
   .then(() => console.log("connected to the database"))
@@ -30,18 +32,18 @@ app.set('views', `${__dirname}/views`);
 
 // router
 app.get('/', homePageController);
-app.get('/about', (req,res) => {
-  res.render('about')
-});
 app.get('/post/:id', getPostController);
 app.get('/posts/new', createPostController);
 app.post('/posts/store', upload, storePostController);
 app.get('/auth/register', createUserController);
 app.post('/users/register', storeUserController);
+app.get('/about', (req,res) => {
+  res.render('about')
+});
 app.get('/contact', (req,res) => {
   res.render('contact')
 });
 
-app.listen(4000||port, () => {
-  console.log("App listen on port 4000");
+app.listen( port , () => {
+  console.log(`App listen on port ${port}`);
 });
