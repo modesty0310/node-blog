@@ -7,9 +7,19 @@ module.exports = class UserAPI {
   };
 
   static storeUser (req, res) {
-    console.log(req.body);
     User.create(req.body, (err, user) => {
+      if (err) {
+        return res.redirect('/users/register');
+      }
       res.redirect('/');
     });
+  };
+
+  static loginPage (req, res) {
+    res.render('login');
+  };
+
+  static login (req, res) {
+    res.redirect('/');
   };
 }
