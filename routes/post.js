@@ -6,8 +6,8 @@ const storePost = require('../middleware/storePost');
 const upload = require('../middleware/fileUploadMiddleware');
 
 
-router.get('/new', PostAPI.createPost);
+router.get('/create', PostAPI.createPost);
 router.get('/:id', PostAPI.getPost);
-router.post('/store', upload, storePost, PostAPI.storePost);
+router.post('/create', upload, storePost, PostAPI.createPost);
 
 module.exports = router;

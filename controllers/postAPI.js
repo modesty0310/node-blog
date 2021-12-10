@@ -10,24 +10,24 @@ module.exports = class PostAPI {
       });
     } catch (err) {
       res.status(400).json({message:err})
-    }
+    };
     
   };
 
-  static createPost(req, res) {
-    res.render('create');
-  };
-
-  static async storePost(req, res) {
-    const image = req.file;
-    try{
-      await Post.create({
-        ...req.body,
-        image: `/uploads/${image.filename}`
-      });
-      res.redirect('/');
-    } catch(err){
-      res.status(400).redirect('/posts/new');
+  static async createPost(req, res) {
+    if (req.method == "GET") {
+      res.render('create');
+    }else{
+      const image = req.file;
+      try{
+        await Post.create({
+          ...req.body,
+          image: `/uploads/${image.filename}`
+        });
+        res.redirect('/');
+      } catch(err){
+        res.status(400).redirect('/posts/create');
+      };
     };
   };
 
