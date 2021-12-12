@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const app = express();
 const port = process.env.PORT || 5000;
 // routes
@@ -12,11 +13,14 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
   })
-  .then(() => console.log("connected to the database" + process.env.SESSIONN_SECRET))
+  .then(() => console.log("connected to the database"))
   .catch((err) => console.log(err));
 // middleware 
 app.use(session({
   secret: process.env.SESSIONN_SECRET,
+  store: MongoStore.create({
+    mongoUrl: process.env.DB_URI
+  }),
 }));
 app.use(express.static('public'));
 app.use(express.json());
