@@ -5,10 +5,14 @@ module.exports = class UserAPI {
 
   static createUser (req, res) {
     if(req.method == "GET"){
+      console.log(req.session.registrationErrors);
       res.render('register');
     }else{
       User.create(req.body, (err, user) => {
         if (err) {
+          const registrationErrors = Object.keys(err.errors).map(key => err.errors[key].message);
+          
+          req.session.registrationErrors = registrationErrors;
           return res.redirect('/users/register');
         }
         res.redirect('/');
