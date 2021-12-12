@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema({
 // arrow function 을 쓰면 this를 못씀
 UserSchema.pre('save', function (next) {
   user = this;
-  console.log(this);
   bcrypt.hash(user.password, 10, (err, encrypted) => {
     user.password = encrypted;
     next();

@@ -28,7 +28,10 @@ module.exports = class UserAPI {
           // 비밀번호 확인
           bcrypt.compare(password, user.password, (err, result) => {
             //비밀번호 맞으면 로그인
-            if (result) return res.redirect('/');
+            if (result){
+              req.session.userId = user._id;
+              return res.redirect('/');
+            }
             // 틀리면 에러
             return res.json({message: "비밀번호가 일치하지 않습니다."});
           });

@@ -16,7 +16,10 @@ module.exports = class PostAPI {
 
   static async createPost(req, res) {
     if (req.method == "GET") {
-      res.render('create');
+      if (req.session.userId){
+        return res.render('create');
+      };
+      return res.redirect('/');
     }else{
       const image = req.file;
       try{
@@ -24,7 +27,7 @@ module.exports = class PostAPI {
           ...req.body,
           image: `/uploads/${image.filename}`
         });
-        res.redirect('/');
+        return res.redirect('/');      
       } catch(err){
         res.status(400).redirect('/posts/create');
       };

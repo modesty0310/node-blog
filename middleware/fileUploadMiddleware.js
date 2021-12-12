@@ -14,4 +14,4 @@ let upload = multer({
   storage : storage
 }).single('image');
 
-module.exports = upload
+module.exports = upload;
