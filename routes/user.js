@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router()
 const UserAPI = require('../controllers/userAPI');
+const redirectIfAuth = require('../middleware/redirectIfAuth');
 
-router.get('/register', UserAPI.createUser);
-router.post('/register', UserAPI.createUser);
-router.get('/login', UserAPI.login);
-router.post('/login', UserAPI.login);
+router.get('/register', redirectIfAuth, UserAPI.createUser);
+router.post('/register', redirectIfAuth, UserAPI.createUser);
+router.get('/login', redirectIfAuth, UserAPI.login);
+router.post('/login', redirectIfAuth, UserAPI.login);
 
 module.exports = router;
