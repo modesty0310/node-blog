@@ -18,6 +18,13 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8 offser-md-2">
+      @if(errors.length > 0)
+        <ul class="list-group">
+          @each(error in errors)
+            <li class="list-group-item text-danger">{{error}}</li>
+          @endeach
+        </ul>
+      @endif
       {{--  이거는 multipart/form-data로 보내면 req.body가 빈다.  --}}
       <form action="/users/register" method="POST" enctype="application/json">
         <div class="control-group">

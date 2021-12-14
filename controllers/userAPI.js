@@ -5,8 +5,9 @@ module.exports = class UserAPI {
 
   static createUser (req, res) {
     if(req.method == "GET"){
-      console.log(req.session.registrationErrors);
-      res.render('register');
+      res.render('register', {
+        errors: req.session.registrationErrors,
+      });
     }else{
       User.create(req.body, (err, user) => {
         if (err) {
