@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, '이름을 작성해 주세요.'],
   },
   email: {
     type: String,
-    required: true,
-    unique:true
+    required: [true, 'email을 작성해 주세요.'],
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: [true, '비밀번호를 작성해 주세요.'],
   },
 });
 

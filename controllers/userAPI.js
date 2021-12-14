@@ -6,14 +6,14 @@ module.exports = class UserAPI {
   static createUser (req, res) {
     if(req.method == "GET"){
       res.render('register', {
-        errors: req.session.registrationErrors,
+        errors: req.flash('registrationErrors'),
       });
     }else{
       User.create(req.body, (err, user) => {
         if (err) {
           const registrationErrors = Object.keys(err.errors).map(key => err.errors[key].message);
           
-          req.session.registrationErrors = registrationErrors;
+          req.flash('registrationErrors',registrationErrors);
           return res.redirect('/users/register');
         }
         res.redirect('/');
