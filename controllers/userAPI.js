@@ -7,6 +7,7 @@ module.exports = class UserAPI {
     if(req.method == "GET"){
       res.render('register', {
         errors: req.flash('registrationErrors'),
+        data: req.flash('data')[0],
       });
     }else{
       User.create(req.body, (err, user) => {
@@ -14,6 +15,7 @@ module.exports = class UserAPI {
           const registrationErrors = Object.keys(err.errors).map(key => err.errors[key].message);
           
           req.flash('registrationErrors',registrationErrors);
+          req.flash('data', req.body);
           return res.redirect('/users/register');
         }
         res.redirect('/');
