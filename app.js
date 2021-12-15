@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const connectFlash = require('connect-flash');
+const passport = require('passport');
+const passportConfig = require('./passport');
 const app = express();
 const port = process.env.PORT || 5000;
 // routes
@@ -18,15 +19,24 @@ mongoose.connect(process.env.DB_URI, {
   .catch((err) => console.log(err));
 // middleware 
 app.use(session({
+  resave: false,
+  saveUninitialized: false,
   secret: process.env.SESSIONN_SECRET,
-  store: MongoStore.create({
-    mongoUrl: process.env.DB_URI
-  }),
+  // store: MongoStore.create({
+  //   mongoUrl: process.env.DB_URI
+  // }),
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  },
 }));
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 app.use(connectFlash());
+passportConfig();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // view engine
