@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router()
-const UserAPI = require('../controllers/userAPI');
+const {createUser, login, logout} = require('../controllers/userAPI');
 const { isLoggedIn ,isNotLoggedIn } = require('../middleware/loginChecked');
 
-router.get('/register', isNotLoggedIn, UserAPI.createUser);
-router.post('/register', isNotLoggedIn, UserAPI.createUser);
-router.get('/login', isNotLoggedIn, UserAPI.login);
-router.post('/login', isNotLoggedIn, UserAPI.login);
-router.get('/logout', isLoggedIn, UserAPI.logout);
+router.get('/register', isNotLoggedIn, createUser);
+router.post('/register', isNotLoggedIn, createUser);
+router.get('/login', isNotLoggedIn, login);
+router.post('/login', isNotLoggedIn, login);
+router.get('/logout', isLoggedIn, logout);
 
 
 module.exports = router;

@@ -1,0 +1,57 @@
+@layout('layouts.app')
+
+@section('content')
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/assets/img/contact-bg.jpg')">
+  <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+              <div class="page-heading">
+                  <h1>New Post</h1>
+              </div>
+          </div>
+      </div>
+  </div>
+</header>
+
+{{--  content  --}}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 offser-md-2">
+      @if(errors.length > 0)
+        <ul class="list-group">
+          @each(error in errors)
+            <li class="list-group-item text-danger">{{error}}</li>
+          @endeach
+        </ul>
+      @endif
+      <form action="/posts/create" method="POST" enctype="multipart/form-data">
+        <div class="control-group">
+          <div class="form-group">
+            <input type="hidden" name="username" value="{{user.username}}" class="form-control">
+          </div>
+          <input type="hidden" name="userId" value="{{user._id}}" class="form-control">
+          <div class="form-group floating-label-form-group controls">
+            <label for="">Title</label>
+            <input type="text" name="title" value="{{post.title || ''}}" placeholder="Titel" class="form-control">
+          </div>
+          <div class="form-group floating-label-form-group contorols">
+            <label for="">Subtitle</label>
+            <input type="text" name="subtitle" value="{{post.subtitle || ''}}" placeholder="Subtitle" class="form-control">
+          </div>
+          <div class="form-group floating-label-form-group contorols">
+            <label for="">Content</label>
+            <textarea name="content" placeholder="Content" cols="30" rows="10" class="form-control">{{post.content || ''}}</textarea>
+          </div>
+          <div class="form-group mt-5">
+            <input type="file" name="image" class="form-control-file" />
+          </div>
+        </div>
+        <div class="form-group my-4 text-center">
+          <button class="btn btn-primary">Update Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endsection
