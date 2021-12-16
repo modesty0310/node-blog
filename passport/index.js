@@ -10,10 +10,8 @@ module.exports = () => {
   });
   // 로그인 되어 있는동안 모든 행동에 실행.
   passport.deserializeUser((id, done) => {
-    console.log(id);
     User.findById({_id: id})
       .then(user => {
-        console.log(user);
         done(null, user)
       })
       .catch(err => done(err));

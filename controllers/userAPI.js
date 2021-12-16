@@ -1,5 +1,4 @@
 const User = require('../database/models/User');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('dotenv').config();
 

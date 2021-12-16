@@ -20,10 +20,10 @@
     <div class="col-md-8 offser-md-2">
       <form action="/posts/create" method="POST" enctype="multipart/form-data">
         <div class="control-group">
-          <div class="form-group floating-label-form-group controls">
-            <label for="">Username</label>
-            <input type="text" name="username" placeholder="Username" class="form-control">
+          <div class="form-group">
+            <input type="hidden" name="username" value="{{user.username}}" class="form-control">
           </div>
+          <input type="hidden" name="userId" value="{{user._id}}" class="form-control">
           <div class="form-group floating-label-form-group controls">
             <label for="">Title</label>
             <input type="text" name="title" placeholder="Titel" class="form-control">

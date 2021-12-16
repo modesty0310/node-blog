@@ -9,7 +9,7 @@ module.exports = class PostAPI {
         post
       });
     } catch (err) {
-      res.status(400).json({message:err})
+      res.status(400).json({message:err});
     };
     
   };
@@ -26,6 +26,7 @@ module.exports = class PostAPI {
         });
         return res.redirect('/');      
       } catch(err){
+        console.log(err);
         res.status(400).redirect('/posts/create');
       };
     };
