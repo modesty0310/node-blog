@@ -14,6 +14,6 @@ router.use((req, res, next) => {
 
 router.get('/create', isLoggedIn, PostAPI.createPost);
 router.get('/:id', PostAPI.getPost);
-router.post('/create', isLoggedIn, upload, storePost, PostAPI.createPost);
+router.post('/create', isLoggedIn, upload, PostAPI.createPost);
 
 module.exports = router;
