@@ -1,4 +1,5 @@
 const Post = require('../database/models/Post');
+const fs = require('fs');
 
 exports.getPost = async (req, res) => {
   try {
@@ -37,10 +38,35 @@ exports.createPost = async (req, res) => {
 };
 
 exports.updatePost = async (req, res, next) => {
+  // multipart/form-data는 multer로 데이터를 받아서 넘겨줘야 req를 사용가능.
   if(req.method == "GET") {
     const id = req.params.id;
     const post = await Post.findById(id);
-    res.render('update', {post});
+    return res.render('update', {post});
+  }else{
+    const id = req.params.id;
+    const post = await Post.findById(id);
+    let newImage = '';
+    if(req.file){
+      newImage = req.file.filename;
+      try {
+        fs.unlinkSync(`./uploads/${post.image}`);
+      } catch (err) {
+      }
+    }else{
+      newImage = post.image;
+    }
+    const newPost = req.body;
+    newPost.image = newImage
+    console.log(newPost);
+    try {
+      Post.findByIdAndUpdate(id, newPost, (err, post) => {
+        res.redirect('/');
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    
   }
   
 }

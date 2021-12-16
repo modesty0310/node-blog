@@ -14,6 +14,7 @@ router.use((req, res, next) => {
 router.get('/create',isAdmin, isLoggedIn, createPost);
 router.get('/:id', getPost);
 router.post('/create', isLoggedIn, upload, createPost);
-router.get('/update/:id', updatePost)
+router.get('/update/:id', updatePost);
+router.post('/update/:id', upload, updatePost);
 
 module.exports = router;
