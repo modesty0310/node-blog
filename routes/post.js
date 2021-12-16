@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getPost , createPost, updatePost} = require('../controllers/postAPI');
+const {getPost , createPost, updatePost, deletePost} = require('../controllers/postAPI');
 //middleware
 const upload = require('../middleware/fileUploadMiddleware');
 const { isLoggedIn, isAdmin } = require('../middleware/loginChecked');
@@ -11,10 +11,11 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/create',isAdmin, isLoggedIn, createPost);
+router.get('/create', isAdmin, createPost);
 router.get('/:id', getPost);
 router.post('/create', isLoggedIn, upload, createPost);
-router.get('/update/:id', updatePost);
-router.post('/update/:id', upload, updatePost);
+router.get('/update/:id',isAdmin, updatePost);
+router.post('/update/:id',isAdmin, upload, updatePost);
+router.get('/delete/:id', isAdmin, deletePost)
 
 module.exports = router;

@@ -68,5 +68,17 @@ exports.updatePost = async (req, res, next) => {
     }
     
   }
-  
+}
+
+exports.deletePost = async (req, res, next) => {
+  const id = req.params.id;
+  const result = await Post.findByIdAndDelete(id);
+    if(result.image != ''){
+      try {
+        fs.unlinkSync('./public'+result.image);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  res.redirect('/');
 }
