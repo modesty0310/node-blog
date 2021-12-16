@@ -1,4 +1,3 @@
-const flash = require('connect-flash/lib/flash');
 const Post = require('../database/models/Post');
 
 module.exports = class PostAPI {
@@ -17,15 +16,12 @@ module.exports = class PostAPI {
 
   static async createPost(req, res) {
     if (req.method == "GET") {
-      console.log(flash('createPostErrors'));
-      console.log(flash('data')[0]);
         return res.render('create',{
           errors: req.flash('createPostErrors'),
           data: req.flash('data')[0]
         });
     }else{
       const image = req.file;
-      console.log(image);
       try{
         await Post.create({
           ...req.body,

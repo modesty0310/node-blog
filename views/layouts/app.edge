@@ -33,8 +33,10 @@
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/register">Register</a></li>
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/login">Login</a></li>
                         @endif
-                        @if(user)
+                        @if(user.isAdmin)
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts/create">new post</a></li>
+                        @endif
+                        @if(user)
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/logout">Logout</a></li>
                         @endif
                     </ul>

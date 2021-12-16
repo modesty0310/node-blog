@@ -1,3 +1,5 @@
+const User = require('../database/models/User');
+
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -14,3 +16,11 @@ exports.isNotLoggedIn = (req, res, next) => {
     res.redirect(`/?error=${message}`);
   }
 };
+
+exports.isAdmin = async (req, res, next) => {
+  const _id = req.user._id;
+  const user = await User.findById({_id});
+  if(user.isAdmin) return next();
+  
+  res.redirect('/');
+}
