@@ -31,10 +31,10 @@ module.exports = class UserAPI {
     }else{
       passport.authenticate('local', (err, user) => {
         if (err || !user) {
-            return res.status(400).json({
-                message: err,
-                user   : user
-            });
+          return res.status(400).json({
+            message: err,
+            user   : user
+          });
         }
         return req.login(user, (err) => {
             if (err) {
@@ -44,8 +44,14 @@ module.exports = class UserAPI {
             // const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
             return res.redirect('/');
         });
-    })(req, res, next);
+      })(req, res, next);
     };
+  };
+
+  static logout = (req, res, next) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect('/');
   };
     
 
