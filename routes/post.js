@@ -11,11 +11,12 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/create', isAdmin, createPost);
 router.get('/:id', getPost);
+router.get('/create', isAdmin, createPost);
 router.post('/create', isLoggedIn, upload, createPost);
 router.get('/update/:id',isAdmin, updatePost);
 router.post('/update/:id',isAdmin, upload, updatePost);
-router.get('/delete/:id', isAdmin, deletePost)
+router.get('/delete/:id', isAdmin, deletePost);
+
 
 module.exports = router;

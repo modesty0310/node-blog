@@ -40,9 +40,14 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res, next) => {
   // multipart/form-data는 multer로 데이터를 받아서 넘겨줘야 req를 사용가능.
   if(req.method == "GET") {
-    const id = req.params.id;
-    const post = await Post.findById(id);
-    return res.render('update', {post});
+    try {
+      const id = req.params.id;
+      const post = await Post.findById(id);
+      return res.render('update', {post});
+    } catch (err) {
+      console.log(err);
+      res.redirect('/');
+    }
   }else{
     const id = req.params.id;
     const post = await Post.findById(id);
@@ -58,16 +63,14 @@ exports.updatePost = async (req, res, next) => {
     }
     const newPost = req.body;
     newPost.image = newImage
-    console.log(newPost);
     try {
       Post.findByIdAndUpdate(id, newPost, (err, post) => {
         res.redirect('/');
       });
     } catch (err) {
       console.log(err);
-    }
-    
-  }
+    }; 
+  };
 }
 
 exports.deletePost = async (req, res, next) => {
@@ -78,7 +81,9 @@ exports.deletePost = async (req, res, next) => {
         fs.unlinkSync('./public'+result.image);
       } catch (err) {
         console.log(err);
-      }
-    }
+      };
+    };
   res.redirect('/');
 }
+
+
