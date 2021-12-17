@@ -17,13 +17,23 @@
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7 ms-auto">
+            <nav class="navbar navbar-light ">
+                <div class="container-fluid justify-content-end">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
         <div class="col-md-10 col-lg-8 col-xl-7">
             <!-- Post preview-->
             @each(post in posts)
             <div class="post-preview">
                 <a href="/posts/{{post._id}}">
                     <h2 class="post-title">{{post.title}}</h2>
-                    <h3 class="post-subtitle">{{post.subtitle}}</h3>
+                    <h3 class="post-subtitle">{{post.content}}</h3>
                 </a>
                 <p class="post-meta">
                     Posted by
