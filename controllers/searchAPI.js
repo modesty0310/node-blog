@@ -2,7 +2,6 @@ const Post = require('../database/models/Post');
 
 exports.searchPost = async (req, res, next) => {
   const query = req.query.search;
-  console.log(query);
   if(!query) {
     return res.redirect('/');
   };

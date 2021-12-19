@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 const PostSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: Schema.Types.ObjectId, ref: 'User',
     required: true,
   },
   title: {
@@ -21,7 +21,10 @@ const PostSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now()
-  }
+  },
+  category:[{
+    type: Schema.Types.ObjectId, ref: 'Category'
+  }],
 });
 
 PostSchema.index({ title: 'text', content: 'text' })
