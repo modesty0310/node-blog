@@ -8,11 +8,13 @@ exports.searchPost = async (req, res, next) => {
   try {
     const posts = await Post.find({$text:{$search: query}}).sort({_id: -1});
     if(posts.length){
-      res.render('index', {
+      return res.render('index', {
         posts
       });
+    }else{
+      res.redirect('/')
     };
-    res.redirect('/');
+    
   } catch (err) {
     console.log(err);
   }

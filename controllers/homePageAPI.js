@@ -1,10 +1,13 @@
 const Post = require('../database/models/Post');
+const Category = require('../database/models/Category');
 
 module.exports = async (req, res) => {
   try {
-    const posts = await Post.find({}).sort({_id: -1})
+    const posts = await Post.find({}).sort({_id: -1});
+    const categories = await Category.find();
     res.render('index', {
-      posts
+      posts,
+      categories
     });
   } catch (err) {
     res.status(400).json({message:err});

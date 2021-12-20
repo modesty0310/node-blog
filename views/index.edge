@@ -47,10 +47,17 @@
         </div>
         <div class="col-md-1 col-lg-2 col-xl-3">
             <h4 style="text-align: center">태그</h4>
-            @each(post in posts)
-            <p class="post-meta">
-                {{post.category}}
-            </p>
+            @each(category in categories)
+            @if(category.post.length > 0)
+            <div style="text-align: center">
+                <a class="btn btn-dark btn-sm" href="/posts/category/{{category._id}}">
+                    <span class="post-meta">
+                    {{category.name}}
+                    </span>
+                    <span>{{category.post.length}}</span>
+                </a>
+            </div>
+            @endif
             @endeach
         </div>
     </div>

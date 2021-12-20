@@ -110,4 +110,17 @@ exports.deletePost = async (req, res, next) => {
   res.redirect('/');
 }
 
+exports.getCategory = async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const posts = await Category.findOne({_id}).populate('post');
+    const categories = await Category.find();
+      res.render('index', {
+        posts : posts.post,
+        categories
+      });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
