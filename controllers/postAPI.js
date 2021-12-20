@@ -1,4 +1,5 @@
 const Post = require('../database/models/Post');
+const Category = require('../database/models/Category');
 const fs = require('fs');
 
 exports.getPost = async (req, res) => {
@@ -14,17 +15,19 @@ exports.getPost = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
+  const category = await Category.find();
   if (req.method == "GET") {
       return res.render('create',{
         errors: req.flash('createPostErrors'),
-        data: req.flash('data')[0]
+        data: req.flash('data')[0],
+        categories: category,
       });
   }else{
     const image = req.file;
     try{
       await Post.create({
         ...req.body,
-        image: image ? `/uploads/${image.filename}` : ''
+        image: image ? `${image.filename}` : ''
       });
       return res.redirect('/');      
     } catch(err){
@@ -55,7 +58,8 @@ exports.updatePost = async (req, res, next) => {
     if(req.file){
       newImage = req.file.filename;
       try {
-        fs.unlinkSync(`./uploads/${post.image}`);
+        console.log('update: ' + `./public${post.image}`);
+        fs.unlinkSync(`./public/uploads/${post.image}`);
       } catch (err) {
       }
     }else{
@@ -77,8 +81,9 @@ exports.deletePost = async (req, res, next) => {
   const id = req.params.id;
   const result = await Post.findByIdAndDelete(id);
     if(result.image != ''){
+      console.log('delete :' + './public'+result.image);
       try {
-        fs.unlinkSync('./public'+result.image);
+        fs.unlinkSync('./public/uploads/'+result.image);
       } catch (err) {
         console.log(err);
       };

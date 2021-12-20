@@ -55,13 +55,11 @@ app.use(engine);
 app.set('views', `${__dirname}/views`);
 
 // router
-
 app.use('/posts', postRouter);
 app.use('/users', userRouter);
 // 신기하게 postRouter 안에서 search로 get을 받으면 경로를 읽지 못한다. 
 app.use('/search', searchRouter);
 app.use('/', indexRouter);
-
 
 app.listen( port , () => {
   console.log(`App listen on port ${port}`);

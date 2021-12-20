@@ -18,10 +18,10 @@ exports.isNotLoggedIn = (req, res, next) => {
 };
 
 exports.isAdmin = async (req, res, next) => {
-  console.log(req.param.id);
-  const id = req.user._id;
-  const user = await User.findById({_id});
-  if(user.isAdmin) return next();
-  
+  if(req.user){
+    const _id = req.user._id;
+    const user = await User.findById({_id});
+    if(user.isAdmin) return next();
+  }
   res.redirect('/');
 }
