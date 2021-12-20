@@ -22,7 +22,7 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  category:[{
+  categories:[{
     type: Schema.Types.ObjectId, ref: 'Category'
   }],
 });

@@ -15,20 +15,41 @@ exports.getPost = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-  const category = await Category.find();
   if (req.method == "GET") {
       return res.render('create',{
         errors: req.flash('createPostErrors'),
         data: req.flash('data')[0],
-        categories: category,
       });
   }else{
     const image = req.file;
+    const categories = req.body.category.split('#')
+    const newCategories = [];
+    // forEach, map 는 await을 써도 내가 생각하는데로 순차적으로 작동 안함.
+    for(const category of categories){
+      try {
+        if(category != ''){
+          const oldCategory = await Category.findOne({name: category});
+          if(!oldCategory){
+            const newCategory = await Category.create({name: category});
+            newCategories.push(newCategory._id)
+          }else if(oldCategory){
+            newCategories.push(oldCategory._id)
+          };
+        };
+      } catch (err) {
+        console.log(err);
+      };
+    };
     try{
-      await Post.create({
+      console.log('id : '+newCategories);
+      const newPost = await Post.create({
         ...req.body,
+        categories: newCategories,
         image: image ? `${image.filename}` : ''
       });
+      console.log("post : " + newPost);
+      const checkCategory = await Category.updateMany({ '_id': newPost.categories }, { $push: { post: newPost._id } });
+      console.log(checkCategory);
       return res.redirect('/');      
     } catch(err){
       const createPostErrors = Object.keys(err.errors).map(key => err.errors[key].message);
@@ -58,7 +79,6 @@ exports.updatePost = async (req, res, next) => {
     if(req.file){
       newImage = req.file.filename;
       try {
-        console.log('update: ' + `./public${post.image}`);
         fs.unlinkSync(`./public/uploads/${post.image}`);
       } catch (err) {
       }
@@ -81,7 +101,6 @@ exports.deletePost = async (req, res, next) => {
   const id = req.params.id;
   const result = await Post.findByIdAndDelete(id);
     if(result.image != ''){
-      console.log('delete :' + './public'+result.image);
       try {
         fs.unlinkSync('./public/uploads/'+result.image);
       } catch (err) {

@@ -33,11 +33,10 @@
             <label for="">Title</label>
             <input type="text" name="title" value="{{data.title || ''}}" placeholder="Titel" class="form-control">
           </div>
-          {{--  @each(category in categories)
           <div class="form-group floating-label-form-group controls">
-            <label><input type="checkbox" name="category" value="{{category.category}}" style="display:none">{{category.category}}</label>
+            <label for="">Category</label>
+            <input type="text" name="category" value="{{data.category || ''}}" placeholder="Category" class="form-control">
           </div>
-          @endeach  --}}
           <div class="form-group floating-label-form-group contorols">
             <label for="">Content</label>
             <textarea name="content" placeholder="Content" value="{{data.content || ''}}" cols="30" rows="10" class="form-control"></textarea>
