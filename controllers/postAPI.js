@@ -4,9 +4,11 @@ const fs = require('fs');
 
 exports.getPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate('categories');
+    console.log(post);
     res.render('post', {
-      post
+      post,
+      categories: post.categories
     });
   } catch (err) {
     res.status(400).json({message:err});
@@ -25,6 +27,7 @@ exports.createPost = async (req, res) => {
     const categories = req.body.category.split('#')
     const newCategories = [];
     // forEach, map 는 await을 써도 내가 생각하는데로 순차적으로 작동 안함.
+    // map와 Promiss.all 을 활용하여 고쳐보자
     for(const category of categories){
       try {
         if(category != ''){
@@ -41,15 +44,12 @@ exports.createPost = async (req, res) => {
       };
     };
     try{
-      console.log('id : '+newCategories);
       const newPost = await Post.create({
         ...req.body,
         categories: newCategories,
         image: image ? `${image.filename}` : ''
       });
-      console.log("post : " + newPost);
-      const checkCategory = await Category.updateMany({ '_id': newPost.categories }, { $push: { post: newPost._id } });
-      console.log(checkCategory);
+      await Category.updateMany({ '_id': newPost.categories }, { $push: { post: newPost._id } });
       return res.redirect('/');      
     } catch(err){
       const createPostErrors = Object.keys(err.errors).map(key => err.errors[key].message);
