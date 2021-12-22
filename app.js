@@ -12,6 +12,7 @@ const searchRouter = require('./routes/search');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const indexRouter = require('./routes/index');
+const commentRouter = require('./routes/comment');
 // DB connect
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URI, {
@@ -59,6 +60,7 @@ app.use('/posts', postRouter);
 app.use('/users', userRouter);
 // 신기하게 postRouter 안에서 search로 get을 받으면 경로를 읽지 못한다. 
 app.use('/search', searchRouter);
+app.use('/comments', commentRouter)
 app.use('/', indexRouter);
 
 app.listen( port , () => {
