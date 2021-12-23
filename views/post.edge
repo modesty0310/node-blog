@@ -86,7 +86,7 @@
         </div>
         <!-- Single comment-->
         @each(comment in comments)
-        <div class="d-flex">
+        <div class="d-flex mt-4">
             <div class="flex-shrink-0">
                 <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
             </div>
@@ -95,6 +95,16 @@
                 {{comment.text}}
             </div>
         </div>
+        <div>
+        </div>
+        <div>{{comment.author}}</div>
+        <div>{{user}}</div>
+        @if(comment.author._id == user._id)
+        <div class="text-end">
+            <a class="btn btn-dark btn-sm" href="/posts/update/{{post._id}}">수정하기</a>
+            <a class="btn btn-dark btn-sm m-1" href="/posts/delete/{{post._id}}">삭제하기</a>
+        </div>
+        @endif
         @endeach
     </div>
 </div>
