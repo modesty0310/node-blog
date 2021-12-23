@@ -1,14 +1,16 @@
 const Post = require('../database/models/Post');
 const Category = require('../database/models/Category');
+const Comment = require('../database/models/Comment');
 const fs = require('fs');
 
 exports.getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id).populate('categories');
-    console.log(post);
+    const comment = await Comment.find({post: req.params.id}).sort('createdAt').populate('author');
     res.render('post', {
       post,
-      categories: post.categories
+      categories: post.categories,
+      comments: comment
     });
   } catch (err) {
     res.status(400).json({message:err});

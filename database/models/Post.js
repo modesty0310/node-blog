@@ -26,6 +26,9 @@ const PostSchema = new mongoose.Schema({
   categories:[{
     type: Schema.Types.ObjectId, ref: 'Category'
   }],
+  comment:[{
+    type: Schema.Types.ObjectId, ref: 'Comment'
+  }]
 });
 
 PostSchema.index({ title: 'text', content: 'text'})
