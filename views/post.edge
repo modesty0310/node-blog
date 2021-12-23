@@ -99,11 +99,13 @@
         </div>
         {{--  왜 _id 로는 false가 나올까? : objectId는 객체라서 equals또는 String으로 바꾸어서 비교한다. --}}
         {{--  <div>{{comment.author._id.equals(user._id)}}</div>  --}}
+        @if(user)
         @if(comment.author._id.toString()==user._id.toString())
         <div class="text-end">
-            <a class="btn btn-dark btn-sm" href="/posts/update/{{post._id}}">수정하기</a>
-            <a class="btn btn-dark btn-sm m-1" href="/posts/delete/{{post._id}}">삭제하기</a>
+            <a class="btn btn-dark btn-sm" href="/comments/update/{{comment._id}}">수정하기</a>
+            <a class="btn btn-dark btn-sm m-1" href="/comments/delete/{{comment._id}}">삭제하기</a>
         </div>
+        @endif
         @endif
         @endeach
     </div>
