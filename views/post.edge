@@ -101,8 +101,15 @@
         {{--  <div>{{comment.author._id.equals(user._id)}}</div>  --}}
         @if(user)
         @if(comment.author._id.toString()==user._id.toString())
+        <form class="mb-4 updateForm" action="/comments/update/{{comment._id}}" method="POST" enctype="application/json" data-id="{{comment._id}}">
+            <textarea class="form-control" name="text" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+            <div class="form-group my-2 text-end" display="none">
+                <button class="btn btn-dark btn-sm m-1 commentBtn">댓글수정</button>
+            </div>
+        </form>
         <div class="text-end">
-            <a class="btn btn-dark btn-sm" href="/comments/update/{{comment._id}}">수정하기</a>
+            <a class="btn btn-dark btn-sm updateBtn" data-id="{{comment._id}}" >수정하기</a>
+            <a class="btn btn-dark btn-sm cancleBtn" data-id="{{comment._id}}" >취소하기</a>
             <a class="btn btn-dark btn-sm m-1" href="/comments/delete/{{comment._id}}">삭제하기</a>
         </div>
         @endif
@@ -113,4 +120,25 @@
         </div>
 </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $('.updateForm').hide();
+        $('.cancleBtn').hide();
+
+        $('.updateBtn').click(e => {
+            const id = e.target.getAttribute("data-id")
+            $('.updateForm').find(`[data-id=${id}]`).show();
+            $('.cancleBtn').show();
+            $('.updateBtn').hide();
+        });
+
+        $('.cancleBtn').click(e => {
+            $('.updateForm').hide();
+            $('.cancleBtn').hide();
+            $('.updateBtn').show();
+        });
+    })
+        
+</script>
 @endsection
+
