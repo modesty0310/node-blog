@@ -97,9 +97,7 @@
         </div>
         <div>
         </div>
-        <div>{{comment.author}}</div>
-        <div>{{user}}</div>
-        @if(comment.author._id == user._id)
+        @if(comment.author.email == user.email)
         <div class="text-end">
             <a class="btn btn-dark btn-sm" href="/posts/update/{{post._id}}">수정하기</a>
             <a class="btn btn-dark btn-sm m-1" href="/posts/delete/{{post._id}}">삭제하기</a>
