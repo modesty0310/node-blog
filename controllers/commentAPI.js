@@ -10,7 +10,14 @@ exports.createComment = async (req, res) => {
 }
 
 exports.deleteComment = async (req, res) => {
-  const _id = req.params.id
+  const _id = req.params.id;
   const comment = await Comment.findByIdAndDelete({_id});
+  res.redirect(`/posts/${comment.post}`);
+}
+
+exports.updateComment = async (req, res) => {
+  const _id = req.params.id;
+  const text = req.body.text;
+  const comment = await Comment.findByIdAndUpdate(_id, {text: text});
   res.redirect(`/posts/${comment.post}`);
 }
