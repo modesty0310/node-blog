@@ -17,7 +17,7 @@
                 @endeach
                   <span class="meta">
                       Posted by
-                      <a href="#!">{{post.username}}</a>
+                      <a href="#!">{{post.userId.username}}</a>
                       on {{post.createdAt.toDateString()}}
                   </span>
               </div>
@@ -86,34 +86,36 @@
         </div>
         <!-- Single comment-->
         @each(comment in comments)
-        <div class="d-flex mt-4">
-            <div class="flex-shrink-0">
-                <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
-            </div>
-            <div class="ms-3">
-                <div class="fw-bold">{{comment.author.username}}</div>
-                {{comment.text}}
-            </div>
-        </div>
-        <div>
-        </div>
-        {{--  왜 _id 로는 false가 나올까? : objectId는 객체라서 equals또는 String으로 바꾸어서 비교한다. --}}
-        {{--  <div>{{comment.author._id.equals(user._id)}}</div>  --}}
-        @if(user)
-        @if(comment.author._id.toString()==user._id.toString())
-        <div class="text-end">
-            <form class="mb-4 updateForm" action="/comments/update/{{comment._id}}" method="POST" enctype="application/json">
-                <textarea class="form-control" name="text" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
-                <div class="form-group my-2 text-end">
-                    <button class="btn btn-dark btn-sm m-1 commentBtn">댓글수정</button>
+            <div class="d-flex mt-4">
+                <div class="flex-shrink-0">
+                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
                 </div>
-            </form>
-                <a class="btn btn-dark btn-sm updateBtn">수정하기</a>
-                <a class="btn btn-dark btn-sm cancleBtn m-1">취소하기</a>
-                <a class="btn btn-dark btn-sm m-1" href="/comments/delete/{{comment._id}}">삭제하기</a>
-        </div>
-        @endif
-        @endif
+                <div class="ms-3">
+                    <div class="fw-bold">{{comment.author.username}}</div>
+                    {{comment.text}}
+                </div>
+            </div>
+            <div>
+            </div>
+            {{--  왜 _id 로는 false가 나올까? : objectId는 객체라서 equals또는 String으로 바꾸어서 비교한다. --}}
+            {{--  <div>{{comment.author._id.equals(user._id)}}</div>  --}}
+            @if(user)
+                @if(comment.author._id.toString()==user._id.toString())
+                    <div class="text-end">
+                        <form class="mb-4 updateForm" action="/comments/update/{{comment._id}}" method="POST" enctype="application/json">
+                            <textarea class="form-control" name="text" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                            <div class="form-group my-2 text-end">
+                                <button class="btn btn-dark btn-sm m-1 commentBtn">댓글수정</button>
+                            </div>
+                        </form>
+                            <a class="btn btn-dark btn-sm updateBtn">수정하기</a>
+                            <a class="btn btn-dark btn-sm cancleBtn m-1">취소하기</a>
+                            <a class="btn btn-dark btn-sm m-1" href="/comments/delete/{{comment._id}}">삭제하기</a>
+                    </div>
+                @else
+                    <div>대댓글</div>
+                @endif
+            @endif
         @endeach
     </div>
 </div>

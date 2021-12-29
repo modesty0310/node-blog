@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'email을 작성해 주세요.'],
-    unique: true
+    unique: true,
   },
   password: {
     type: String,

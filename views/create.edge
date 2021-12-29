@@ -27,7 +27,6 @@
       @endif
       <form action="/posts/create" method="POST" enctype="multipart/form-data">
         <div class="control-group">
-          <input type="hidden" name="username" value="{{user.username}}" class="form-control">
           <input type="hidden" name="userId" value="{{user._id}}" class="form-control">
           <div class="form-group floating-label-form-group controls">
             <label for="">Title</label>

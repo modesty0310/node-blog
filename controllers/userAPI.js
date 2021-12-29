@@ -11,16 +11,29 @@ exports.createUser = (req, res) => {
       data: req.flash('data')[0],
     });
   }else{
-    User.create(req.body, (err, user) => {
-      if (err) {
-        const registrationErrors = Object.keys(err.errors).map(key => err.errors[key].message);
+    const email = req.body.email;
+    User.find({email}, (err, user) => {
+      if(user) {
+        console.log(user);
+        const registrationErrors = "이미 존재하는 email 입니다.";
         
         req.flash('registrationErrors',registrationErrors);
         req.flash('data', req.body);
         return res.redirect('/users/register');
+      }else{
+        console.log(user);
+        User.create(req.body, (err, user) => {
+          if (err) {
+            const registrationErrors = Object.keys(err.errors).map(key => err.errors[key].message);
+            
+            req.flash('registrationErrors',registrationErrors);
+            req.flash('data', req.body);
+            return res.redirect('/users/register');
+          }
+          res.redirect('/');
+        });
       }
-      res.redirect('/');
-    });
+    })  
   };
 };
 

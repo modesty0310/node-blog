@@ -5,7 +5,7 @@ const fs = require('fs');
 
 exports.getPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate('categories');
+    const post = await Post.findById(req.params.id).populate('categories').populate('userId');
     const comment = await Comment.find({post: req.params.id}).sort('createdAt').populate('author');
     res.render('post', {
       post,

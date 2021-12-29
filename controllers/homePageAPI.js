@@ -3,7 +3,7 @@ const Category = require('../database/models/Category');
 
 module.exports = async (req, res) => {
   try {
-    const posts = await Post.find({}).sort({_id: -1});
+    const posts = await Post.find({}).sort({_id: -1}).populate('userId');
     const categories = await Category.find();
     res.render('index', {
       posts,
